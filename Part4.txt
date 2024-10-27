@@ -1,0 +1,5 @@
+I would redo the indexes on the table to match what most users top fields are. How I would determine that is use cache of queries in the database to see what is being queried and in what order. 
+
+If possible, I would create another table of POPULAR Authors that can be used in the backend to reduce the number of timeouts. If there were more reads than writes, I would make a read replica on the database to spread out the queries that are causing the network traffic. 
+
+Another solution would be to move the least borrowed books to a separate table to reduce the number of row that would need to scanned during the queries. If at any time, an object in the new table leastBorrowed was being borrowed more, there can be a stored procedure to move it back to Book table and move others into the leastBorrowed table. 
